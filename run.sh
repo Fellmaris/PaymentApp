@@ -12,44 +12,29 @@ kill_processes() {
 # Trap EXIT signal to ensure cleanup
 trap kill_processes EXIT
 
-# For Windows: Make sure Node.js, Maven, Git, and Java are installed manually download the newest versions
-# For Node.js, visit: https://nodejs.org/en/download/
-# For Maven: https://maven.apache.org/install.html
-# For JDK: https://adoptopenjdk.net/
-
-# Step 1: Navigate to Backend - Install and build Spring project
-echo "Building the Spring backend..."
-cd "Payment API"
-mvn clean install
-
-# Step 2: Frontend - Install React dependencies
-echo "Installing React frontend dependencies..."
-cd ../payment_client
-npm install
-
-# Step 3: Run the Spring backend in the background
+# Step 1: Run the Spring backend in the background
 echo "Running the Spring backend..."
-cd ../"Payment API"
+cd "Payment API"
 mvn spring-boot:run &
 
-# Step 4: Run the React frontend in the background
+# Step 2: Run the React frontend in the background
 echo "Running the React frontend..."
 cd ../payment_client
 npm start &
 
-# Step 5: Wait for react to be ready
+# Step 3: Wait until React frontend is fully loaded (check if localhost:3000 is accessible)
 echo "Waiting for React frontend to be available..."
 until curl --silent --head http://localhost:3000 | grep "200 OK" > /dev/null; do
   echo "Waiting for React to be ready..."
   sleep 2
 done
 
-# Step 6: Open the browser for React
+# Step 4: Open the browser for React
 echo "Opening browser on http://localhost:3000..."
 explorer http://localhost:3000
 
 # Wait indefinitely so that the processes can continue running
-echo "Setup complete! Backend and frontend are running."
+echo "Application is running! Backend and frontend are both up."
 echo "Press 'Ctrl + C' to stop or exit to terminate processes."
 
 wait
