@@ -115,7 +115,7 @@ echo "Press Ctrl+C to stop both services."
 while true; do
   sleep 5
   # Periodically check if apps are still running
-  if ! netstat -ano | grep ":3000" | grep "LISTENING" > /dev/null; then
+  if ! netstat -ano | grep ":3000" | grep "LISTENING" > /dev/null; thengit add payment_client/
     echo "React frontend is no longer running on port 3000. Restarting..."
     cd "../payment_client" || exit 1
     npm start > /dev/null 2>&1 &
