@@ -1,0 +1,265 @@
+/* General Styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+h2 {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555; /* Slightly softer label color */
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Slightly darker border */
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding and border in element's total width/height */
+}
+
+input:focus, select:focus {
+  border-color: #4CAF50; /* Highlight focus */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); /* Subtle focus glow */
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end; /* Align items to the bottom */
+}
+
+.filter-group {
+  flex: 1; /* Allow filter groups to grow */
+  min-width: 180px; /* Minimum width before wrapping */
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Table styles - Updated for specific column layouts */
+.table-responsive {
+  overflow-x: auto; /* Allow horizontal scrolling on small screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* table-layout: fixed; */ /* Optional: Use if 'auto' doesn't give desired results */
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle; /* Align content vertically in the middle */
+}
+
+th {
+  background-color: #f8f9fa; /* Lighter header background */
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap; /* Prevent headers from wrapping */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Slightly darker hover */
+}
+
+/* --- Column Specific Styles --- */
+
+/* ID Column: Allow it to take up remaining space */
+th.col-id,
+td.col-id {
+  width: 100%; /* Takes precedence in auto layout to fill space */
+  /* Prevent breaking the UUID, but allow if screen is too small */
+  /* word-break: break-all; */ /* Uncomment if you NEED wrapping on small screens */
+  /* Optional: if you want slight truncation with ellipsis */
+  /* max-width: 300px; */ /* Adjust as needed */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+  /* white-space: nowrap; */
+}
+
+/* Amount Column: Minimum width, align content right */
+th.col-amount,
+td.col-amount {
+  width: 1%; /* Hint to make it narrow */
+  white-space: nowrap; /* Prevent wrapping, forces minimum width */
+  text-align: right; /* Align currency amount to the right */
+}
+
+/* Fee Column: Minimum width, align content right */
+th.col-fee,
+td.col-fee {
+  width: 1%; /* Hint to make it narrow */
+  white-space: nowrap; /* Prevent wrapping, forces minimum width */
+  text-align: right; /* Align currency amount to the right */
+}
+
+/* Actions Column: Minimum width, align content right */
+th.col-actions,
+td.col-actions {
+  width: 1%; /* Hint to make it narrow */
+  white-space: nowrap; /* Prevent wrapping of buttons */
+  text-align: right; /* Align button(s) to the right */
+}
+
+/* Optional: Ensure buttons don't cause excessive width */
+td.col-actions .btn {
+  /* Add margin if you have multiple buttons per row */
+  /* margin-left: 5px; */
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 15px; /* Slightly smaller padding */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px; /* Slightly smaller font */
+  font-weight: bold;
+  transition: background-color 0.2s ease; /* Smooth transition on hover */
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-primary {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Gray */
+  color: white;
+}
+.btn-secondary:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Red */
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+/* Form Button specific margin */
+form .btn-primary {
+    margin-top: 10px; /* Add some space above the submit button */
+}
+
+/* Filter Clear Button specific margin */
+.filters .btn-secondary {
+    margin-left: auto; /* Push clear button to the right if space allows */
+}
+
+
+/* Error message */
+.error {
+  color: #dc3545; /* Match danger button color */
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Loading/No data messages */
+p {
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch; /* Make filter inputs full width */
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filters .btn-secondary {
+      margin-left: 0; /* Reset margin for stacked layout */
+      margin-top: 10px; /* Add space above clear button */
+  }
+
+  /* Reduce padding on smaller screens */
+  th, td {
+      padding: 10px 8px;
+  }
+
+  .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+  }
+
+  h1 {
+      font-size: 1.8em;
+  }
+
+  h2 {
+      font-size: 1.4em;
+  }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens if needed */
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+}
