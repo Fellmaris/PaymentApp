@@ -1,0 +1,27 @@
+# Dependencies
+/node_modules
+
+# Build directory (Create React App default, might be 'dist' for others)
+/build
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Optional: IDE/Editor directories
+.idea/
+.vscode/
+
+# Optional: Test coverage
+/coverage
+
+# Optional: MacOS specific
+.DS_Store

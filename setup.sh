@@ -86,7 +86,6 @@ npm install
 echo "Running the Spring backend..."
 cd "../Payment API" || exit 1
 mvn spring-boot:run > /dev/null 2>&1 &
-sleep 5  # Give Spring some time to start
 
 # Step 4: Run the React frontend in the background
 echo "Running the React frontend..."
@@ -111,19 +110,5 @@ echo "Spring backend is running at http://localhost:8080"
 echo "React frontend is running at http://localhost:3000"
 echo "Press Ctrl+C to stop both services."
 
-# Wait indefinitely while monitoring the applications
-while true; do
-  sleep 5
-  # Periodically check if apps are still running
-  if ! netstat -ano | grep ":3000" | grep "LISTENING" > /dev/null; thengit add payment_client/
-    echo "React frontend is no longer running on port 3000. Restarting..."
-    cd "../payment_client" || exit 1
-    npm start > /dev/null 2>&1 &
-  fi
-
-  if ! netstat -ano | grep ":8080" | grep "LISTENING" > /dev/null; then
-    echo "Spring backend is no longer running on port 8080. Restarting..."
-    cd "../Payment API" || exit 1
-    mvn spring-boot:run > /dev/null 2>&1 &
-  fi
-done
+# Wait for user to terminate the script using Ctrl+C or another kill signal
+wait
