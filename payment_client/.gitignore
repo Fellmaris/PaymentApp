@@ -1,3 +1,4 @@
+
 # dependencies
 /node_modules
 
@@ -12,6 +13,7 @@
 .env.test.local
 .env.production.local
 
+
 # testing
 /coverage
 
@@ -23,6 +25,7 @@
 *.njsproj
 *.sln
 
+
 # log files
 npm-debug.log*
 yarn-debug.log*
@@ -31,3 +34,27 @@ pnpm-debug.log*
 
 # Mac system files
 Thumbs.db
+
+# Optional: ignore coverage reports
+coverage/
+
+# Optional: ignore React testing snapshot files
+*.snap
+
+# Optional: ignore eslint cache
+.eslintcache
+
+# Optional: ignore parcel-bundler cache
+.cache/
+
+# Optional: ignore storybook build
+storybook-static/
+
+# Optional: ignore output of next.js builds if using
+.next/
+
+# Optional: ignore local npm link symlinks
+*.tgz
+
+# Optional: ignore Mac system files
+*.DS_Store
