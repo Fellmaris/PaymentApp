@@ -1,0 +1,59 @@
+version: '3.9' # Use a recent version
+
+services:
+  # Database Service (PostgreSQL)
+  database:
+    image: postgres:16-alpine # Use a specific version, alpine is smaller
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: Payments           # Database name from your config
+      POSTGRES_USER: postgres         # Database user from your config
+      POSTGRES_PASSWORD: admin        # Database password from your config
+    ports:
+      - "5433:5432" # Map container port 5432 to host port 5433 (avoid conflict if you have local postgres)
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Persist database data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Payments"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Service (Spring Boot)
+  backend:
+    build:
+      context: ./payment-api          # Directory containing backend.Dockerfile
+      dockerfile: backend.Dockerfile
+    container_name: backend-app
+    environment:
+      # Use Spring Boot standard environment variables for DB connection
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/Payments # Use service name 'database' as host
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update # Or 'validate', 'create', 'create-drop' depending on your needs
+      SPRING_PROFILES_ACTIVE: prod # Profile from your config
+      # Add any other backend-specific environment variables here
+      # Example: SERVER_PORT: 8080 (usually default, but can be explicit)
+    ports:
+      - "5000:8080"
+    depends_on:
+      database:
+        condition: service_healthy # Wait for database healthcheck to pass
+    restart: unless-stopped
+
+  # Frontend Service (React + Nginx)
+  frontend:
+    build:
+      context: ./payment_client         # Directory containing frontend.Dockerfile
+      dockerfile: frontend.Dockerfile
+    container_name: frontend-app
+    ports:
+      - "80:80"   # Map Nginx container port 80 to host port 80
+    depends_on:
+      - backend                 # Depends on backend being available for API proxying
+    restart: unless-stopped
+
+# Named volume for database data persistence
+volumes:
+  postgres-data:

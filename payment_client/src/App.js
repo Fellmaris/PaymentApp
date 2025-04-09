@@ -80,14 +80,27 @@ function App() {
     const [newPayment, setNewPayment] = useState(initialNewPaymentState);
 
 
-    const fetchPayments = async () => {
+const fetchPayments = async () => {
         setLoading(true);
+        setError(null); // Clear previous errors at the start
         try {
             const response = await axios.get('/payments');
-            setPayments(response.data);
-            setError(null);
+
+            // *** Add this check ***
+            if (Array.isArray(response.data)) {
+                setPayments(response.data);
+            } else {
+                // Handle the case where the response is not an array
+                console.error("API '/payments' did not return an array. Received:", response.data);
+                setPayments([]); // Set to an empty array to prevent filter error
+                setError('Received invalid data format for payments.'); // Inform the user
+            }
+            // setError(null); // No longer needed here, cleared at the start
+
         } catch (err) {
+            console.error("Error fetching payments:", err); // Log the full error
             setError('Error fetching payments: ' + err.message);
+            setPayments([]); // *** Set payments to an empty array on error ***
         } finally {
             setLoading(false);
         }
