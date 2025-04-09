@@ -1,0 +1,27 @@
+# Git / Version Control
+.git
+.gitignore
+
+# Node modules - VERY IMPORTANT
+node_modules
+
+# Build artifacts (React build output, etc.)
+build
+dist
+
+# npm / yarn artifacts
+npm-debug.log
+yarn-error.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables (unless needed DURING build, which is rare)
+.env
+.env.*
+!.env.example
+
+# Docker files (don't include themselves)
+Dockerfile
+.dockerignore

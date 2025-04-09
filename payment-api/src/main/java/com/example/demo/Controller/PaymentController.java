@@ -37,23 +37,32 @@ public class PaymentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Payment>> getAllPayments(HttpServletRequest request) {
+    public ResponseEntity<?> getAllPayments(HttpServletRequest request) {
         try {
-            String clientIp = ipAddressUtil.getClientIpAddress(request);
-            if (!"Unknown".equals(clientIp)  && !ipAddressUtil.isLocalhost(clientIp)) {
-                String country = geoIpService.getCountryFromIp(clientIp)
-                        .orElse("Unknown");
-
-                log.info("User connection from country: {} (IP: {}) accessing payment list.", country, clientIp);
-            } else {
-                log.debug("Skipping GeoIP logging for internal/unknown IP: {}", clientIp);
+            try {
+                String clientIp = ipAddressUtil.getClientIpAddress(request);
+                if (!"Unknown".equals(clientIp) && !ipAddressUtil.isLocalhost(clientIp)) {
+                    String country = geoIpService.getCountryFromIp(clientIp)
+                            .orElse("Unknown");
+                    log.info("User connection from country: {} (IP: {}) accessing payment list.", country, clientIp);
+                } else {
+                    log.debug("Skipping GeoIP logging for internal/unknown IP: {}", clientIp);
+                }
+            } catch (Exception geoEx) {
+                log.error("Non-critical error during GeoIP lookup for payment list access: {}", geoEx.getMessage(), geoEx);
             }
-        } catch (Exception e) {
-            log.error("Error during GeoIP lookup for payment list access: {}", e.getMessage(), e);
-        }
 
-        List<Payment> payments = paymentService.getAllNonCancelledPayments();
-        return new ResponseEntity<>(payments, HttpStatus.OK);
+            log.debug("Attempting to fetch non-cancelled payments.");
+            List<Payment> payments = paymentService.getAllNonCancelledPayments();
+            log.debug("Successfully fetched {} non-cancelled payments.", payments.size());
+            return new ResponseEntity<>(payments, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error("Failed to process GET /payments request", e);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred while fetching payments.");
+        }
     }
 
     @GetMapping("/{id}")

@@ -1,0 +1,45 @@
+# Git / Version Control
+.git
+.gitignore
+.gitattributes
+
+# Maven build output directory
+target/
+
+# Maven wrapper files
+mvnw
+mvnw.cmd
+.mvn/
+
+# IDE specific files/folders
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+*.iws
+*.ipr
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Local environment variables / secrets (adjust if needed)
+.env
+.env.*
+secrets/
+# *.properties  # Uncomment and use carefully if property files contain secrets NOT needed for build
+
+# Compiled classes (if output elsewhere, though usually in target/)
+bin/
+
+# Docker files (don't include themselves)
+Dockerfile
+.dockerignore
+
+# Other common temporary/local files
+*~
+*.swp
